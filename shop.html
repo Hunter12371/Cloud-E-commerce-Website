@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sons & Co. | Shop Collection</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f7f6f2',
+                            100: '#edebe0',
+                            800: '#2c2b27',
+                            900: '#1a1917',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-50 text-brand-900 font-sans min-h-screen flex flex-col">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-brand-900 text-brand-100 text-xs tracking-widest text-center py-2 px-4 uppercase font-semibold">
+        ⚡ FLASH SALE: Get 40% Off on Seasonal Collections! Use Code: <span class="text-yellow-400">SONS40</span> ⚡
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="bg-white sticky top-0 z-40 border-b border-brand-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between relative">
+            
+            <!-- 1. Sons & Co. Logo (Far Left) -->
+            <a href="index.html" class="font-serif text-2xl font-black tracking-tight text-brand-900 flex-shrink-0">
+                Sons & Co<span class="text-amber-600">.</span>
+            </a>
+
+            <!-- 2. Nav Items (MEN, WOMEN, KIDS, HOME) -->
+            <nav class="hidden md:flex items-center space-x-6 ml-6 h-full flex-shrink-0">
+                <div class="nav-item-container h-full flex items-center" data-mega-target="mega-menu-men">
+                    <a href="shop.html?category=men" class="text-xs font-bold uppercase tracking-widest text-brand-900 hover:text-amber-600 py-2 border-b-2 border-transparent hover:border-amber-600 transition-all">MEN</a>
+                </div>
+                <div class="nav-item-container h-full flex items-center" data-mega-target="mega-menu-women">
+                    <a href="shop.html?category=women" class="text-xs font-bold uppercase tracking-widest text-brand-900 hover:text-amber-600 py-2 border-b-2 border-transparent hover:border-amber-600 transition-all">WOMEN</a>
+                </div>
+                <div class="nav-item-container h-full flex items-center" data-mega-target="mega-menu-kids">
+                    <a href="shop.html?category=kids" class="text-xs font-bold uppercase tracking-widest text-brand-900 hover:text-amber-600 py-2 border-b-2 border-transparent hover:border-amber-600 transition-all">KIDS</a>
+                </div>
+                <div class="nav-item-container h-full flex items-center" data-mega-target="mega-menu-home">
+                    <a href="shop.html" class="text-xs font-bold uppercase tracking-widest text-brand-900 hover:text-amber-600 py-2 border-b-2 border-transparent hover:border-amber-600 transition-all">HOME</a>
+                </div>
+            </nav>
+
+            <!-- 3. Center Search Bar -->
+            <div class="flex-grow max-w-xs lg:max-w-md mx-6 hidden sm:block">
+                <form action="shop.html" method="GET" class="relative">
+                    <input type="text" name="search" id="header-search-input" placeholder="Search for formal suits, western wear, pajamas..." class="w-full bg-brand-50 border border-brand-100 rounded-full px-5 py-2 pl-11 text-xs focus:outline-none focus:border-amber-600 transition-all duration-300">
+                    <button type="submit" class="absolute left-4 top-2.5 text-gray-400 text-sm">
+                        <i class="fa fa-search text-xs"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- 4. Wishlist & Cart Actions (Right) -->
+            <div class="flex items-center space-x-4 flex-shrink-0">
+                <button onclick="toggleWishlistModal()" class="relative p-2 text-brand-900 hover:text-amber-600 transition-colors" aria-label="Wishlist">
+                    <i class="fa-regular fa-heart text-lg"></i>
+                    <span id="wishlist-count" class="absolute -top-1 -right-1 bg-amber-600 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center scale-90">0</span>
+                </button>
+                <button id="cart-btn" class="relative p-2 text-brand-900 hover:text-amber-600 transition-colors" aria-label="Shopping Cart">
+                    <i class="fa-solid fa-bag-shopping text-lg"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-amber-600 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center scale-90">0</span>
+                </button>
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-brand-900 hover:text-amber-600 transition-colors">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+
+            <!-- MEGA MENU PANELS -->
+            <div id="mega-menu-men" class="mega-menu-panel absolute top-full left-1/2 -translate-x-1/2 w-[90vw] max-w-[1400px] bg-white border border-brand-100 shadow-xl z-50 hidden py-8 px-10">
+                <div class="grid grid-cols-5 gap-8">
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Topwear</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=men&subcategory=casuals" class="text-gray-700 hover:text-brand-900 hover:underline">T-Shirts</a></li>
+                            <li><a href="shop.html?category=men&subcategory=casuals" class="text-gray-700 hover:text-brand-900 hover:underline">Casual Shirts</a></li>
+                            <li><a href="shop.html?category=men&subcategory=formals" class="text-gray-700 hover:text-brand-900 hover:underline">Formal Shirts</a></li>
+                            <li><a href="shop.html?category=men&subcategory=activewear" class="text-gray-700 hover:text-brand-900 hover:underline">Sweatshirts</a></li>
+                            <li><a href="shop.html?category=men&subcategory=winter" class="text-gray-700 hover:text-brand-900 hover:underline">Sweaters & Jackets</a></li>
+                            <li><a href="shop.html?category=men&subcategory=formals" class="text-gray-700 hover:text-brand-900 hover:underline">Blazers & Suits</a></li>
+                        </ul>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mt-6 mb-4">Indian & Festive</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=men&subcategory=ethnic" class="text-gray-700 hover:text-brand-900 hover:underline">Kurtas & Sets</a></li>
+                            <li><a href="shop.html?category=men&subcategory=ethnic" class="text-gray-700 hover:text-brand-900 hover:underline">Sherwanis</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Bottomwear</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=men&subcategory=jeans" class="text-gray-700 hover:text-brand-900 hover:underline">Jeans</a></li>
+                            <li><a href="shop.html?category=men&subcategory=casuals" class="text-gray-700 hover:text-brand-900 hover:underline">Casual Trousers</a></li>
+                            <li><a href="shop.html?category=men&subcategory=formals" class="text-gray-700 hover:text-brand-900 hover:underline">Formal Trousers</a></li>
+                            <li><a href="shop.html?category=men&subcategory=shorts" class="text-gray-700 hover:text-brand-900 hover:underline">Shorts</a></li>
+                            <li><a href="shop.html?category=men&subcategory=activewear" class="text-gray-700 hover:text-brand-900 hover:underline">Track Pants & Joggers</a></li>
+                        </ul>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mt-6 mb-4">Sleepwear</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=men&subcategory=pajamas" class="text-gray-700 hover:text-brand-900 hover:underline">Briefs & Boxers</a></li>
+                            <li><a href="shop.html?category=men&subcategory=pajamas" class="text-gray-700 hover:text-brand-900 hover:underline">Sleepwear & Loungewear</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Footwear</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=men&subcategory=footwear" class="text-gray-700 hover:text-brand-900 hover:underline">Casual Shoes</a></li>
+                            <li><a href="shop.html?category=men&subcategory=footwear" class="text-gray-700 hover:text-brand-900 hover:underline">Sports Shoes</a></li>
+                            <li><a href="shop.html?category=men&subcategory=footwear" class="text-gray-700 hover:text-brand-900 hover:underline">Formal Shoes</a></li>
+                            <li><a href="shop.html?category=men&subcategory=footwear" class="text-gray-700 hover:text-brand-900 hover:underline">Sneakers</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Sports & Active</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=men&subcategory=activewear" class="text-gray-700 hover:text-brand-900 hover:underline">Active T-Shirts</a></li>
+                            <li><a href="shop.html?category=men&subcategory=activewear" class="text-gray-700 hover:text-brand-900 hover:underline">Track Pants & Shorts</a></li>
+                            <li><a href="shop.html?category=men&subcategory=activewear" class="text-gray-700 hover:text-brand-900 hover:underline">Tracksuits</a></li>
+                            <li><a href="shop.html?category=men&subcategory=activewear" class="text-gray-700 hover:text-brand-900 hover:underline">Jackets & Sweatshirts</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Accessories</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=men&subcategory=accessories" class="text-gray-700 hover:text-brand-900 hover:underline">Belts</a></li>
+                            <li><a href="shop.html?category=men&subcategory=accessories" class="text-gray-700 hover:text-brand-900 hover:underline">Wallets</a></li>
+                            <li><a href="shop.html?category=men&subcategory=accessories" class="text-gray-700 hover:text-brand-900 hover:underline">Ties & Bowties</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mega-menu-women" class="mega-menu-panel absolute top-full left-1/2 -translate-x-1/2 w-[90vw] max-w-[1400px] bg-white border border-brand-100 shadow-xl z-50 hidden py-8 px-10">
+                <div class="grid grid-cols-5 gap-8">
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Indian & Fusion</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=women&subcategory=ethnic" class="text-gray-700 hover:text-brand-900 hover:underline">Kurtas & Suits</a></li>
+                            <li><a href="shop.html?category=women&subcategory=ethnic" class="text-gray-700 hover:text-brand-900 hover:underline">Sarees</a></li>
+                            <li><a href="shop.html?category=women&subcategory=ethnic" class="text-gray-700 hover:text-brand-900 hover:underline">Lehengas</a></li>
+                            <li><a href="shop.html?category=women&subcategory=ethnic" class="text-gray-700 hover:text-brand-900 hover:underline">Dupattas & Shawls</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Western Wear</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=women&subcategory=western-wears" class="text-gray-700 hover:text-brand-900 hover:underline">Dresses</a></li>
+                            <li><a href="shop.html?category=women&subcategory=western-wears" class="text-gray-700 hover:text-brand-900 hover:underline">Tops & T-Shirts</a></li>
+                            <li><a href="shop.html?category=women&subcategory=jeans" class="text-gray-700 hover:text-brand-900 hover:underline">Jeans</a></li>
+                            <li><a href="shop.html?category=women&subcategory=western-wears" class="text-gray-700 hover:text-brand-900 hover:underline">Shorts & Skirts</a></li>
+                            <li><a href="shop.html?category=women&subcategory=western-wears" class="text-gray-700 hover:text-brand-900 hover:underline">Co-ords & Jumpsuits</a></li>
+                            <li><a href="shop.html?category=women&subcategory=winter" class="text-gray-700 hover:text-brand-900 hover:underline">Jackets & Coats</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Footwear</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=women&subcategory=footwear" class="text-gray-700 hover:text-brand-900 hover:underline">Flats</a></li>
+                            <li><a href="shop.html?category=women&subcategory=footwear" class="text-gray-700 hover:text-brand-900 hover:underline">Heels</a></li>
+                            <li><a href="shop.html?category=women&subcategory=footwear" class="text-gray-700 hover:text-brand-900 hover:underline">Boots</a></li>
+                            <li><a href="shop.html?category=women&subcategory=footwear" class="text-gray-700 hover:text-brand-900 hover:underline">Casual Shoes</a></li>
+                        </ul>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mt-6 mb-4">Active Wear</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=women&subcategory=activewear" class="text-gray-700 hover:text-brand-900 hover:underline">Sportswear</a></li>
+                            <li><a href="shop.html?category=women&subcategory=activewear" class="text-gray-700 hover:text-brand-900 hover:underline">Activewear</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Lingerie & Sleep</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=women&subcategory=pajamas" class="text-gray-700 hover:text-brand-900 hover:underline">Bras & Briefs</a></li>
+                            <li><a href="shop.html?category=women&subcategory=pajamas" class="text-gray-700 hover:text-brand-900 hover:underline">Sleepwear & Loungewear</a></li>
+                            <li><a href="shop.html?category=women&subcategory=pajamas" class="text-gray-700 hover:text-brand-900 hover:underline">Thermals</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Accessories</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=women&subcategory=accessories" class="text-gray-700 hover:text-brand-900 hover:underline">Bags & Handbags</a></li>
+                            <li><a href="shop.html?category=women&subcategory=accessories" class="text-gray-700 hover:text-brand-900 hover:underline">Sunglasses</a></li>
+                            <li><a href="shop.html?category=women&subcategory=accessories" class="text-gray-700 hover:text-brand-900 hover:underline">Jewellery</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mega-menu-kids" class="mega-menu-panel absolute top-full left-1/2 -translate-x-1/2 w-[90vw] max-w-[1400px] bg-white border border-brand-100 shadow-xl z-50 hidden py-8 px-10">
+                <div class="grid grid-cols-5 gap-8">
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Boys Clothing</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=kids&subcategory=casuals" class="text-gray-700 hover:text-brand-900 hover:underline">T-Shirts & Shirts</a></li>
+                            <li><a href="shop.html?category=kids&subcategory=jeans" class="text-gray-700 hover:text-brand-900 hover:underline">Jeans & Shorts</a></li>
+                            <li><a href="shop.html?category=kids&subcategory=formals" class="text-gray-700 hover:text-brand-900 hover:underline">Party Wear</a></li>
+                            <li><a href="shop.html?category=kids&subcategory=pajamas" class="text-gray-700 hover:text-brand-900 hover:underline">Nightwear</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Girls Clothing</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=kids&subcategory=formals" class="text-gray-700 hover:text-brand-900 hover:underline">Dresses & Frocks</a></li>
+                            <li><a href="shop.html?category=kids&subcategory=casuals" class="text-gray-700 hover:text-brand-900 hover:underline">Tops & T-Shirts</a></li>
+                            <li><a href="shop.html?category=kids&subcategory=jeans" class="text-gray-700 hover:text-brand-900 hover:underline">Skirts & Shorts</a></li>
+                            <li><a href="shop.html?category=kids&subcategory=pajamas" class="text-gray-700 hover:text-brand-900 hover:underline">Nightwear</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Kids Footwear</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=kids&subcategory=footwear" class="text-gray-700 hover:text-brand-900 hover:underline">Casual Shoes</a></li>
+                            <li><a href="shop.html?category=kids&subcategory=footwear" class="text-gray-700 hover:text-brand-900 hover:underline">Sports Shoes</a></li>
+                            <li><a href="shop.html?category=kids&subcategory=footwear" class="text-gray-700 hover:text-brand-900 hover:underline">Sandals</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Infants</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=kids&subcategory=casuals" class="text-gray-700 hover:text-brand-900 hover:underline">Rompers & Sleepsuits</a></li>
+                            <li><a href="shop.html?category=kids&subcategory=casuals" class="text-gray-700 hover:text-brand-900 hover:underline">Bodysuits</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Kids Accessories</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?category=kids&subcategory=accessories" class="text-gray-700 hover:text-brand-900 hover:underline">Bags & Backpacks</a></li>
+                            <li><a href="shop.html?category=kids&subcategory=accessories" class="text-gray-700 hover:text-brand-900 hover:underline">Caps & Hats</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mega-menu-home" class="mega-menu-panel absolute top-full left-1/2 -translate-x-1/2 w-[90vw] max-w-[1400px] bg-white border border-brand-100 shadow-xl z-50 hidden py-8 px-10">
+                <div class="grid grid-cols-5 gap-8">
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Loungewear</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?subcategory=pajamas" class="text-gray-700 hover:text-brand-900 hover:underline">Lounge Sets</a></li>
+                            <li><a href="shop.html?subcategory=casuals" class="text-gray-700 hover:text-brand-900 hover:underline">Relaxed T-Shirts</a></li>
+                            <li><a href="shop.html?subcategory=activewear" class="text-gray-700 hover:text-brand-900 hover:underline">Joggers & Sweatpants</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Sleepwear</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?subcategory=pajamas" class="text-gray-700 hover:text-brand-900 hover:underline">Pajama Sets</a></li>
+                            <li><a href="shop.html?subcategory=pajamas" class="text-gray-700 hover:text-brand-900 hover:underline">Night Suits</a></li>
+                            <li><a href="shop.html?subcategory=pajamas" class="text-gray-700 hover:text-brand-900 hover:underline">Robes</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Comfort Wear</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?subcategory=casuals" class="text-gray-700 hover:text-brand-900 hover:underline">Cotton Essentials</a></li>
+                            <li><a href="shop.html?subcategory=casuals" class="text-gray-700 hover:text-brand-900 hover:underline">Everyday Basics</a></li>
+                            <li><a href="shop.html?subcategory=casuals" class="text-gray-700 hover:text-brand-900 hover:underline">Relaxed Shirts</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Seasonal</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html?season=summer" class="text-gray-700 hover:text-brand-900 hover:underline">Summer Homewear</a></li>
+                            <li><a href="shop.html?season=winter" class="text-gray-700 hover:text-brand-900 hover:underline">Winter Homewear</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-4">Collections</h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="shop.html" class="text-gray-700 hover:text-brand-900 hover:underline">New Arrivals</a></li>
+                            <li><a href="shop.html" class="text-gray-700 hover:text-brand-900 hover:underline">Best Sellers</a></li>
+                            <li><a href="shop.html" class="text-gray-700 hover:text-brand-900 hover:underline">Premium Comfort</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Translucent Overlay -->
+        <div id="mega-menu-overlay" class="fixed inset-0 bg-black/20 z-30 hidden pointer-events-none transition-opacity duration-300 opacity-0"></div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-brand-100 bg-white px-4 py-4 space-y-3 font-medium uppercase text-sm tracking-wider">
+            <div>
+                <a href="#" class="mobile-accordion-trigger flex justify-between items-center py-2 hover:text-amber-600">
+                    Men <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+                </a>
+                <div class="hidden pl-4 py-2 space-y-2 text-xs bg-brand-50">
+                    <a href="shop.html?category=men&subcategory=formals" class="block py-1 text-gray-700 hover:text-amber-600">Formals</a>
+                    <a href="shop.html?category=men&subcategory=pajamas" class="block py-1 text-gray-700 hover:text-amber-600">Pajamas</a>
+                    <a href="shop.html?category=men&subcategory=shorts" class="block py-1 text-gray-700 hover:text-amber-600">Shorts</a>
+                    <a href="shop.html?category=men&subcategory=jeans" class="block py-1 text-gray-700 hover:text-amber-600">Jeans</a>
+                    <a href="shop.html?category=men&subcategory=activewear" class="block py-1 text-gray-700 hover:text-amber-600">Activewear</a>
+                </div>
+            </div>
+            <div>
+                <a href="#" class="mobile-accordion-trigger flex justify-between items-center py-2 hover:text-amber-600">
+                    Women <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+                </a>
+                <div class="hidden pl-4 py-2 space-y-2 text-xs bg-brand-50">
+                    <a href="shop.html?category=women&subcategory=western-wears" class="block py-1 text-gray-700 hover:text-amber-600">Western Wears</a>
+                    <a href="shop.html?category=women&subcategory=pajamas" class="block py-1 text-gray-700 hover:text-amber-600">Pajamas</a>
+                    <a href="shop.html?category=women&subcategory=jeans" class="block py-1 text-gray-700 hover:text-amber-600">Jeans</a>
+                </div>
+            </div>
+            <div>
+                <a href="#" class="mobile-accordion-trigger flex justify-between items-center py-2 hover:text-amber-600">
+                    Kids <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+                </a>
+                <div class="hidden pl-4 py-2 space-y-2 text-xs bg-brand-50">
+                    <a href="shop.html?category=kids&subcategory=formals" class="block py-1 text-gray-700 hover:text-amber-600">Formals</a>
+                    <a href="shop.html?category=kids&subcategory=pajamas" class="block py-1 text-gray-700 hover:text-amber-600">Pajamas</a>
+                    <a href="shop.html?category=kids&subcategory=jeans" class="block py-1 text-gray-700 hover:text-amber-600">Jeans</a>
+                </div>
+            </div>
+            <a href="shop.html" class="block py-2 hover:text-amber-600">Home / Shop All</a>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+        <!-- Breadcrumb -->
+        <div class="mb-8">
+            <span class="text-xs uppercase tracking-widest text-gray-400"><a href="index.html" class="hover:text-brand-900">Home</a> / Shop Collection</span>
+            <h1 class="font-serif text-3xl md:text-4xl font-extrabold mt-2">Browse Catalog</h1>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar Filters -->
+            <aside class="w-full lg:w-64 flex-shrink-0 bg-white p-6 border border-brand-100 self-start">
+                <div class="flex justify-between items-center pb-4 mb-6 border-b border-brand-50">
+                    <h2 class="font-serif text-lg font-bold">Filter By</h2>
+                    <button id="clear-filters-btn" class="text-xs text-amber-600 font-semibold hover:underline">Reset All</button>
+                </div>
+
+                <!-- Gender/Category Filter -->
+                <div class="mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-brand-900 mb-3">Gender / Category</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="category" value="men" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Gentlemen (Men)
+                        </label>
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="category" value="women" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Ladies (Women)
+                        </label>
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="category" value="kids" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Little Ones (Kids)
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Subcategory Filter -->
+                <div class="mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-brand-900 mb-3">Style / Subcategory</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="subcategory" value="formals" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Formals
+                        </label>
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="subcategory" value="pajamas" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Pajamas & Sleepwear
+                        </label>
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="subcategory" value="jeans" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Jeans & Denim
+                        </label>
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="subcategory" value="western-wears" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Western Wears
+                        </label>
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="subcategory" value="activewear" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Activewear
+                        </label>
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="subcategory" value="casuals" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Casuals
+                        </label>
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="subcategory" value="shorts" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Shorts
+                        </label>
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="subcategory" value="winter" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Winterwear
+                        </label>
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="subcategory" value="ethnic" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Indian & Ethnic
+                        </label>
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="subcategory" value="accessories" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Accessories
+                        </label>
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="subcategory" value="footwear" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Footwear
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Season Filter -->
+                <div class="mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-brand-900 mb-3">Season</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="season" value="winter" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Winter Edit ❄️
+                        </label>
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="season" value="summer" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Summer Edit ☀️
+                        </label>
+                        <label class="flex items-center text-sm cursor-pointer select-none">
+                            <input type="checkbox" name="season" value="spring" class="rounded border-gray-300 text-amber-600 focus:ring-amber-500 mr-2 filter-checkbox">
+                            Spring Edit 🌸
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Sizes Filter -->
+                <div class="mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-brand-900 mb-3">Sizes</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="size-filter-btn px-3 py-1.5 border border-brand-100 text-xs font-semibold hover:border-brand-900 uppercase transition-colors" data-size="XS">XS</button>
+                        <button class="size-filter-btn px-3 py-1.5 border border-brand-100 text-xs font-semibold hover:border-brand-900 uppercase transition-colors" data-size="S">S</button>
+                        <button class="size-filter-btn px-3 py-1.5 border border-brand-100 text-xs font-semibold hover:border-brand-900 uppercase transition-colors" data-size="M">M</button>
+                        <button class="size-filter-btn px-3 py-1.5 border border-brand-100 text-xs font-semibold hover:border-brand-900 uppercase transition-colors" data-size="L">L</button>
+                        <button class="size-filter-btn px-3 py-1.5 border border-brand-100 text-xs font-semibold hover:border-brand-900 uppercase transition-colors" data-size="XL">XL</button>
+                    </div>
+                </div>
+
+                <!-- Price Range Filter -->
+                <div class="mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-brand-900 mb-3">Max Price</h3>
+                    <input type="range" id="price-range" min="0" max="300" value="300" class="w-full accent-amber-600 bg-gray-200 h-1.5 rounded-lg appearance-none cursor-pointer">
+                    <div class="flex justify-between text-xs text-gray-500 mt-2">
+                        <span>$0</span>
+                        <span id="price-display" class="font-bold text-brand-900">$300</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Product Display Area -->
+            <div class="flex-grow">
+                <!-- Sorting & Info bar -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 mb-8 border-b border-brand-100">
+                    <span id="results-count-text" class="text-sm text-gray-500">Showing all items</span>
+                    
+                    <div class="flex items-center space-x-2">
+                        <label for="sort-by" class="text-xs text-gray-400 uppercase tracking-wider">Sort By:</label>
+                        <select id="sort-by" class="bg-white border border-brand-100 text-sm py-1.5 px-3 focus:outline-none focus:border-amber-600">
+                            <option value="default">Featured</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Main Grid -->
+                <div id="shop-catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Loaded dynamically via JS -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="about" class="bg-brand-900 text-white pt-16 pb-8 border-t border-brand-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div>
+                <a href="index.html" class="font-serif text-2xl font-extrabold tracking-tight text-white block mb-4">
+                    Sons & Co<span class="text-amber-600">.</span>
+                </a>
+                <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                    Pioneers in creating premium apparel combining classic cuts with functional tailoring since 1994.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-amber-600 transition-colors"><i class="fa-brands fa-instagram text-lg"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-amber-600 transition-colors"><i class="fa-brands fa-facebook text-lg"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-amber-600 transition-colors"><i class="fa-brands fa-pinterest text-lg"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-serif font-bold text-base mb-4 tracking-wider uppercase text-amber-500">Customer Care</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Contact Support</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Shipping & Customs</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Returns Portal</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Size Guides</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-serif font-bold text-base mb-4 tracking-wider uppercase text-amber-500">Discover More</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Sustainably Made</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Our Atelier</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Press Room</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-serif font-bold text-base mb-4 tracking-wider uppercase text-amber-500">Join The Atelier</h4>
+                <p class="text-gray-400 text-sm mb-4">Subscribe for previews, curated drops, and exclusive events.</p>
+                <form class="flex" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                    <input type="email" placeholder="Your email..." required class="bg-brand-800 text-white border border-brand-800 rounded-l px-4 py-2 text-sm focus:outline-none focus:border-amber-600 w-full">
+                    <button type="submit" class="bg-amber-600 hover:bg-amber-700 text-white rounded-r px-4 font-semibold uppercase text-xs tracking-wider">Join</button>
+                </form>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Slide-out Drawer Modal -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 overflow-hidden">
+            <div id="cart-overlay" class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+            <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                <div class="pointer-events-auto w-screen max-w-md">
+                    <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                        <!-- Drawer Header -->
+                        <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+                            <div class="flex items-start justify-between">
+                                <h2 class="font-serif text-lg font-bold text-brand-900" id="slide-over-title">Shopping Bag</h2>
+                                <div class="ml-3 flex h-7 items-center">
+                                    <button id="close-cart" type="button" class="-m-2 p-2 text-gray-400 hover:text-gray-500">
+                                        <span class="sr-only">Close panel</span>
+                                        <i class="fa-solid fa-xmark text-xl"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Cart Items container -->
+                            <div class="mt-8">
+                                <div class="flow-root">
+                                    <ul id="cart-items-list" role="list" class="-my-6 divide-y divide-gray-100">
+                                        <!-- Dynamic cart items loaded via cart.js -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Drawer Footer & Pricing -->
+                        <div class="border-t border-gray-200 px-4 py-6 sm:px-6 bg-brand-50">
+                            <div class="flex justify-between text-base font-medium text-gray-900">
+                                <p>Subtotal</p>
+                                <p id="cart-subtotal">$0.00</p>
+                            </div>
+                            <p class="mt-0.5 text-xs text-gray-500">Shipping and taxes calculated at checkout.</p>
+                            <div class="mt-6">
+                                <button id="checkout-btn" class="w-full flex items-center justify-center border border-transparent bg-amber-600 px-6 py-3.5 text-sm font-semibold uppercase tracking-wider text-white shadow-sm hover:bg-amber-700 transition-colors">
+                                    Proceed to Checkout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script imports -->
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
+    <script>
+        let activeCategories = [];
+        let activeSubcategories = [];
+        let activeSeasons = [];
+        let selectedSizes = [];
+        let maxPrice = 300;
+        let sortBy = 'default';
+        let filterSearchText = "";
+
+        window.addEventListener("DOMContentLoaded", () => {
+            parseQueryParams();
+            setupShopFilters();
+            renderCatalog();
+        });
+
+        function parseQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            
+            const catParam = params.get('category');
+            if (catParam) {
+                activeCategories.push(catParam);
+                const el = document.querySelector(`input[name="category"][value="${catParam}"]`);
+                if (el) el.checked = true;
+            }
+
+            const subParam = params.get('subcategory');
+            if (subParam) {
+                activeSubcategories.push(subParam);
+                const el = document.querySelector(`input[name="subcategory"][value="${subParam}"]`);
+                if (el) el.checked = true;
+            }
+
+            const seasonParam = params.get('season');
+            if (seasonParam) {
+                activeSeasons.push(seasonParam);
+                const el = document.querySelector(`input[name="season"][value="${seasonParam}"]`);
+                if (el) el.checked = true;
+            }
+
+            const searchParam = params.get('search');
+            if (searchParam) {
+                filterSearchText = searchParam.toLowerCase();
+                document.getElementById("header-search-input").value = searchParam;
+            }
+        }
+
+        function setupShopFilters() {
+            document.querySelectorAll(".filter-checkbox").forEach(chk => {
+                chk.addEventListener("change", (e) => {
+                    const value = e.target.value;
+                    const type = e.target.name;
+
+                    if (type === "category") {
+                        if (e.target.checked) {
+                            activeCategories.push(value);
+                        } else {
+                            activeCategories = activeCategories.filter(v => v !== value);
+                        }
+                    } else if (type === "subcategory") {
+                        if (e.target.checked) {
+                            activeSubcategories.push(value);
+                        } else {
+                            activeSubcategories = activeSubcategories.filter(v => v !== value);
+                        }
+                    } else if (type === "season") {
+                        if (e.target.checked) {
+                            activeSeasons.push(value);
+                        } else {
+                            activeSeasons = activeSeasons.filter(v => v !== value);
+                        }
+                    }
+                    renderCatalog();
+                });
+            });
+
+            document.querySelectorAll(".size-filter-btn").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    const size = e.target.dataset.size;
+                    e.target.classList.toggle("bg-brand-900");
+                    e.target.classList.toggle("text-white");
+
+                    if (selectedSizes.includes(size)) {
+                        selectedSizes = selectedSizes.filter(s => s !== size);
+                    } else {
+                        selectedSizes.push(size);
+                    }
+                    renderCatalog();
+                });
+            });
+
+            const slider = document.getElementById("price-range");
+            const priceDisplay = document.getElementById("price-display");
+            slider.addEventListener("input", (e) => {
+                maxPrice = parseInt(e.target.value);
+                priceDisplay.textContent = `$${maxPrice}`;
+                renderCatalog();
+            });
+
+            document.getElementById("sort-by").addEventListener("change", (e) => {
+                sortBy = e.target.value;
+                renderCatalog();
+            });
+
+            document.getElementById("header-search-input").addEventListener("input", (e) => {
+                filterSearchText = e.target.value.toLowerCase();
+                renderCatalog();
+            });
+
+            document.getElementById("clear-filters-btn").addEventListener("click", () => {
+                activeCategories = [];
+                activeSubcategories = [];
+                activeSeasons = [];
+                selectedSizes = [];
+                maxPrice = 300;
+                filterSearchText = "";
+
+                document.querySelectorAll(".filter-checkbox").forEach(c => c.checked = false);
+                document.querySelectorAll(".size-filter-btn").forEach(b => {
+                    b.classList.remove("bg-brand-900", "text-white");
+                });
+                slider.value = 300;
+                priceDisplay.textContent = "$300";
+                document.getElementById("header-search-input").value = "";
+
+                renderCatalog();
+            });
+        }
+
+        function renderCatalog() {
+            const grid = document.getElementById("shop-catalog-grid");
+            const resultsText = document.getElementById("results-count-text");
+
+            let filtered = products.filter(p => {
+                const matchesCategory = activeCategories.length === 0 || activeCategories.includes(p.category);
+                const matchesSubcategory = activeSubcategories.length === 0 || activeSubcategories.includes(p.subcategory);
+                const matchesSeason = activeSeasons.length === 0 || activeSeasons.includes(p.season);
+                const matchesSize = selectedSizes.length === 0 || p.sizes.some(size => selectedSizes.includes(size));
+                const matchesPrice = p.price <= maxPrice;
+                const matchesSearch = p.title.toLowerCase().includes(filterSearchText) || p.description.toLowerCase().includes(filterSearchText);
+
+                return matchesCategory && matchesSubcategory && matchesSeason && matchesSize && matchesPrice && matchesSearch;
+            });
+
+            if (sortBy === 'price-asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (sortBy === 'price-desc') {
+                filtered.sort((a, b) => b.price - a.price);
+            }
+
+            resultsText.textContent = `Showing ${filtered.length} products`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-20 text-center text-gray-500">
+                        <i class="fa-solid fa-store-slash text-5xl mb-4 text-gray-300"></i>
+                        <p class="font-serif text-lg font-bold">No garments match the selected filters.</p>
+                        <p class="text-sm mt-1">Try resetting checkboxes or widening your max price limit.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(p => `
+                <div class="bg-white group flex flex-col justify-between border border-brand-100 hover:shadow-xl transition-all duration-300 relative">
+                    ${p.badge ? `<span class="absolute top-4 left-4 bg-brand-900 text-white font-semibold text-[10px] tracking-wider uppercase py-1 px-3.5 z-10">${p.badge}</span>` : ''}
+                    
+                    <a href="product.html?id=${p.id}" class="relative overflow-hidden aspect-[4/5] cursor-pointer block">
+                        <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-brand-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
+                            <span class="bg-white text-brand-900 font-semibold text-xs tracking-wider uppercase py-3 px-6 shadow-md hover:bg-brand-900 hover:text-white transition-colors duration-200">
+                                View Details
+                            </span>
+                        </div>
+                    </a>
+
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold tracking-widest text-amber-600 block mb-1">${p.category} | ${p.subcategory}</span>
+                            <a href="product.html?id=${p.id}" class="font-serif text-lg font-bold hover:text-amber-600 transition-colors line-clamp-1">${p.title}</a>
+                        </div>
+                        
+                        <div class="mt-4 pt-4 border-t border-brand-50 flex items-center justify-between">
+                            <div class="flex items-baseline space-x-2">
+                                <span class="text-lg font-bold text-brand-900">$${p.price.toFixed(2)}</span>
+                                ${p.originalPrice ? `<span class="text-xs text-gray-400 line-through">$${p.originalPrice.toFixed(2)}</span>` : ''}
+                            </div>
+                            <div class="flex space-x-2">
+                                <button onclick="toggleWishlist(${p.id})" class="text-gray-400 hover:text-red-500 transition-colors p-2" aria-label="Wishlist">
+                                    <i class="fa-regular fa-heart text-lg"></i>
+                                </button>
+                                <button onclick="addToCart(${p.id}, 'M')" class="text-brand-900 hover:text-amber-600 transition-colors p-2" aria-label="Add to bag">
+                                    <i class="fa-solid fa-cart-plus text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join("");
+        }
+    </script>
+    <script src="menu.js"></script>
+</body>
+</html>

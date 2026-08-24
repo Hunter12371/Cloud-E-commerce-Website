@@ -1,0 +1,52 @@
+/* Custom styles for Sons & Co. */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f7f6f2;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c7c5b9;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2c2b27;
+}
+
+/* Custom transitions and animations */
+.animate-hover {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.season-tab {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Mega menu styles */
+.mega-menu-panel {
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    transform: translateY(8px) translateX(-50%);
+}
+.mega-menu-panel.active {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+}
+#mega-menu-overlay {
+    transition: opacity 0.2s ease-in-out;
+}
+
